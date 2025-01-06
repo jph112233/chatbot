@@ -15,16 +15,23 @@ from streamlit_chat import message
 log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 logging.basicConfig(format=log_format, stream=sys.stdout, level=logging.INFO)
 
-BASE_API_URL = "http://localhost:7860/api/v1/process"
-FLOW_ID = "<your-flow-id-goes-here>"
+BASE_API_URL = "https://api.langflow.astra.datastax.com"
+LANGFLOW_ID = "08ff40ee-0309-4857-a339-6136a9b9a604"
+FLOW_ID = "bc0d7ebe-b2f3-486a-a20c-b6afb602db60"
+
+APPLICATION_TOKEN ="AstraCS:LSQvFBjPCbaPPMSWRmameeDv:fbd2b1611eda0ba8cd7d1787fd674e4b146326bb5e0b0e07272d7fb5ada41ecd"
+
+
+
 # You can tweak the flow by adding a tweaks dictionary
 # e.g {"OpenAI-XXXXX": {"model_name": "gpt-4"}}
 TWEAKS = {
-  "OpenAIEmbeddings-3OTU2": {},
-  "Chroma-elGpI": {},
-  "ChatOpenAI-38h1l": {"model_name": "gpt-4"},
-  "ConversationalRetrievalChain-4FTbi": {},
-  "ConversationBufferMemory-YTFcZ": {}
+#    "ChatInput-px7mJ": {},
+#    "ParseData-iCfxn": {},
+#    "Prompt-uxud0": {},
+#    "SplitText-p1gJK": {},
+#    "OpenAIModel-FhydA": {},
+#    "ChatOutput-9FRtl": {}
 }
 BASE_AVATAR_URL = (
     "https://raw.githubusercontent.com/garystafford-aws/static-assets/main/static"
@@ -32,9 +39,16 @@ BASE_AVATAR_URL = (
 
 
 def main():
-    st.set_page_config(page_title="Virtual Bartender")
+    st.set_page_config(page_title="Attic Breeze")
 
-    st.markdown("##### Welcome to the Virtual Bartender")
+
+    st.image("https://www.atticbreeze.net/AB_webstore/squirrelcart/themes/ab-v5/images/store_logo.png")
+    st.write("")  # Adds a blank line
+    st.write("")  # Adds a blank line
+    st.markdown("##### Welcome!")
+    
+    
+
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -43,7 +57,7 @@ def main():
         with st.chat_message(message["role"], avatar=message["avatar"]):
             st.write(message["content"])
 
-    if prompt := st.chat_input("I'm your virtual bartender, how may I help you?"):
+    if prompt := st.chat_input("What can we help with?"):
         # Add user message to chat history
         st.session_state.messages.append(
             {
@@ -79,14 +93,20 @@ def main():
 
 
 def run_flow(inputs: dict, flow_id: str, tweaks: Optional[dict] = None) -> dict:
-    api_url = f"{BASE_API_URL}/{flow_id}"
-
-    payload = {"inputs": inputs}
-
+    #api_url = f"{BASE_API_URL}/{flow_id}"
+    api_url=f"{BASE_API_URL}/lf/{LANGFLOW_ID}/api/v1/run/{FLOW_ID}"
+#    payload = {"inputs": inputs}
+    payload = {
+        "input_value":  inputs ['question'],
+        "output_type": "chat",
+        "input_type": "chat",
+    }
     if tweaks:
         payload["tweaks"] = tweaks
 
-    response = requests.post(api_url, json=payload)
+### Add authentication header=
+    headers = {"Authorization": "Bearer " + APPLICATION_TOKEN, "Content-Type": "application/json"}
+    response = requests.post(api_url, json=payload, headers=headers)
     return response.json()
 
 
@@ -95,8 +115,11 @@ def generate_response(prompt):
     inputs = {"question": prompt}
     response = run_flow(inputs, flow_id=FLOW_ID, tweaks=TWEAKS)
     try:
-        logging.info(f"answer: {response['result']['answer']}")
-        return response["result"]["answer"]
+#        logging.info(f"answer: {response['result']['answer']}")
+#        return response["result"]["answer"]
+        #st.write(response)  
+        return response ['outputs'][0]['outputs'][0]['results']['message']['text']
+
     except Exception as exc:
         logging.error(f"error: {response}")
         return "Sorry, there was a problem finding an answer for you."
