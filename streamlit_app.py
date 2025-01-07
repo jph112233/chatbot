@@ -16,6 +16,10 @@ log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 logging.basicConfig(format=log_format, stream=sys.stdout, level=logging.INFO)
 
 
+BASE_API_URL = st.secrets["BASE_API_URL"]
+LANGFLOW_ID = st.secrets["LANGFLOW_ID"]
+FLOW_ID = st.secrets["FLOW_ID"]
+APPLICATION_TOKEN = st.secrets["APPLICATION_TOKEN"]
 
 
 # You can tweak the flow by adding a tweaks dictionary
