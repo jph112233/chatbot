@@ -15,11 +15,6 @@ from streamlit_chat import message
 log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 logging.basicConfig(format=log_format, stream=sys.stdout, level=logging.INFO)
 
-BASE_API_URL = "https://api.langflow.astra.datastax.com"
-LANGFLOW_ID = "08ff40ee-0309-4857-a339-6136a9b9a604"
-FLOW_ID = "bc0d7ebe-b2f3-486a-a20c-b6afb602db60"
-
-APPLICATION_TOKEN ="AstraCS:LSQvFBjPCbaPPMSWRmameeDv:fbd2b1611eda0ba8cd7d1787fd674e4b146326bb5e0b0e07272d7fb5ada41ecd"
 
 
 
