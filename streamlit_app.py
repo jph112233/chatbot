@@ -103,7 +103,7 @@ def run_flow(inputs: dict, flow_id: str, tweaks: Optional[dict] = None) -> dict:
         payload["tweaks"] = tweaks
 
 ### Add authentication header=
-    headers = {"Authorization": "Bearer " + APPLICATION_TOKEN, "Content-Type": "application/json"}
+    headers = {"Authorization": "Bearer " + APPLICATION_TOKEN, "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     response = requests.post(api_url, json=payload, headers=headers)
     return response.json()
 
