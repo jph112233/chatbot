@@ -16,10 +16,37 @@ log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 logging.basicConfig(format=log_format, stream=sys.stdout, level=logging.INFO)
 
 
+# Get query parameters from the URL
+query_params = st.query_params
+
+# Access specific parameters
+# If URL is "/?name=John&age=25"
+sitename = query_params.get("site", "").lower()  # Returns "John"
+match sitename:
+    case "attic":
+        #st.write("Name equals John")
+        strSiteName="attic"
+        strImage="https://www.atticbreeze.net/AB_webstore/squirrelcart/themes/ab-v5/images/store_logo.png"
+        FLOW_ID = st.secrets["flow_id_attic"]
+    case "tess":
+        strSiteName="tess"
+        strImage="https://yt3.googleusercontent.com/ZVwaBIidQtbCYGmGeanRD2J7ik_srsXgvXUlkEOGIZZDoczmsrHWXiihUzcKoMmTXWMoSbs=w2276-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj"
+        FLOW_ID = st.secrets["flow_id_tess"]
+    case "canariis":
+        strSiteName="canariis"
+        strImage="https://yt3.googleusercontent.com/ZVwaBIidQtbCYGmGeanRD2J7ik_srsXgvXUlkEOGIZZDoczmsrHWXiihUzcKoMmTXWMoSbs=w2276-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj"
+        FLOW_ID = st.secrets["flow_id_canariis"]
+
+    case _:
+        st.write("Name not recognized")
+
 BASE_API_URL = st.secrets["base_api_url"]
 LANGFLOW_ID = st.secrets["langflow_id"]
-FLOW_ID = st.secrets["flow_id"]
+
 APPLICATION_TOKEN = st.secrets["application_token"]
+# FlowID, Image
+
+
 
 
 # You can tweak the flow by adding a tweaks dictionary
@@ -39,9 +66,10 @@ BASE_AVATAR_URL = (
 
 def main():
     st.set_page_config(page_title="Attic Breeze")
+    
 
 
-    st.image("https://www.atticbreeze.net/AB_webstore/squirrelcart/themes/ab-v5/images/store_logo.png")
+    st.image(strImage)
     st.write("")  # Adds a blank line
     st.write("")  # Adds a blank line
     st.markdown("##### Welcome!")
