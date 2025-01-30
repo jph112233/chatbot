@@ -27,15 +27,18 @@ match sitename:
         #st.write("Name equals John")
         strSiteName="attic"
         strImage="https://www.atticbreeze.net/AB_webstore/squirrelcart/themes/ab-v5/images/store_logo.png"
+        strTitle="Attic Breeze"
         FLOW_ID = st.secrets["flow_id_attic"]
     case "tess":
         strSiteName="tess"
         strImage="https://yt3.googleusercontent.com/ZVwaBIidQtbCYGmGeanRD2J7ik_srsXgvXUlkEOGIZZDoczmsrHWXiihUzcKoMmTXWMoSbs=w2276-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj"
         FLOW_ID = st.secrets["flow_id_tess"]
+        strTitle="Tess Oral Health"
     case "canariis":
         strSiteName="canariis"
-        strImage="https://yt3.googleusercontent.com/ZVwaBIidQtbCYGmGeanRD2J7ik_srsXgvXUlkEOGIZZDoczmsrHWXiihUzcKoMmTXWMoSbs=w2276-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj"
+        strImage="https://canariis.com/App_Themes/Canariis/Images/logo.jpg"
         FLOW_ID = st.secrets["flow_id_canariis"]
+        strTitle="Canariis"
 
     case _:
         st.write("Name not recognized")
@@ -65,7 +68,7 @@ BASE_AVATAR_URL = (
 
 
 def main():
-    st.set_page_config(page_title="Attic Breeze")
+    st.set_page_config(page_title=strTitle)
     
 
 
