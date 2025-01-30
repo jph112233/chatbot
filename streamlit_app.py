@@ -16,7 +16,7 @@ log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 logging.basicConfig(format=log_format, stream=sys.stdout, level=logging.INFO)
 
 
-# Get query parameters from the URL
+# Get query parameters from the URL.
 query_params = st.query_params
 
 # Access specific parameters
