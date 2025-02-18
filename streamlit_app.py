@@ -136,7 +136,18 @@ def run_flow(inputs: dict, flow_id: str, tweaks: Optional[dict] = None) -> dict:
 
 ### Add authentication header=
     headers = {"Authorization": "Bearer " + APPLICATION_TOKEN, "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+    # Add debug logging
+    logging.info(f"API URL: {api_url}")
+    logging.info(f"Payload: {payload}")
+    logging.info(f"Headers: {headers}")
+
     response = requests.post(api_url, json=payload, headers=headers)
+    # Add response debugging
+    logging.info(f"Response Status Code: {response.status_code}")
+    logging.info(f"Response Headers: {response.headers}")
+    logging.info(f"Response Content: {response.text}")
+    
+
     return response.json()
 
 
@@ -147,8 +158,23 @@ def generate_response(prompt):
     try:
 #        logging.info(f"answer: {response['result']['answer']}")
 #        return response["result"]["answer"]
-        #st.write(response)  
-        return response ['outputs'][0]['outputs'][0]['results']['message']['text']
+#        st.write(response)  
+#        st.write(response['outputs'][0]['outputs'][0]['results']['message']['data']['text'])
+#        return response ['outputs'][0]['outputs'][0]['results']['message']['text']
+        message_text =  response['outputs'][0]['outputs'][0]['results']['message']['data']['text']
+        logging.info(f"answer: {message_text}")
+        return message_text
+
+    except requests.exceptions.RequestException as e:
+        logging.error(f"API request error: {e}")
+        return "Sorry, there was a problem connecting to the service."
+    except (KeyError, IndexError) as e:
+        logging.error(f"Response parsing error: {e}")
+        logging.error(f"Response structure: {response}")
+        return "Sorry, there was a problem processing the response."
+    except Exception as e:
+        logging.error(f"Unexpected error: {e}")
+        return "Sorry, an unexpected error occurred."
 
     except Exception as exc:
         logging.error(f"error: {response}")
