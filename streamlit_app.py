@@ -45,6 +45,7 @@ match sitename:
         FLOW_ID = st.secrets["flow_id_ams"]
         strTitle="AMS"
     case _:
+        strTitle="Not recognized"
         st.write("Name not recognized")
 
 BASE_API_URL = st.secrets["base_api_url"]
