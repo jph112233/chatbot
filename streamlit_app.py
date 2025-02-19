@@ -39,8 +39,11 @@ match sitename:
         strImage="https://canariis.com/App_Themes/Canariis/Images/logo.jpg"
         FLOW_ID = st.secrets["flow_id_canariis"]
         strTitle="Canariis"
-
-
+    case "ams":
+        strSiteName="ams"
+        strImage="https://www.govmint.com/media/logo/stores/1/GovMint-Logo-Sub.png"
+        FLOW_ID = st.secrets["flow_id_ams"]
+        strTitle="AMS"
     case _:
         st.write("Name not recognized")
 
